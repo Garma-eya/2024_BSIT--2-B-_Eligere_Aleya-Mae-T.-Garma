@@ -23,7 +23,7 @@ if(isset($_GET['delete_from_cart'])){
 
 ?>
 <html>
-<head>
+ <head>
     <meta charset="UTF-8">
     <link rel="icon" type="image" href="./images/icon.jpg">
     <link rel="stylesheet" href="css/bootstrap.css">
@@ -33,7 +33,7 @@ if(isset($_GET['delete_from_cart'])){
             background:url('./images/nnn.jpg');
             background-repeat: no-repeat;
             background-size: cover;
-            background-position: 88%;
+            background-position: center;
         }
     </style>
     
@@ -46,34 +46,144 @@ if(isset($_GET['delete_from_cart'])){
               color: black;
               text-decoration: none;
               font-weight: bold;
+              font-family: 'Georgia' , serif; 
             }
             .btn-link:hover {
-               color: white;
+               color: gray;
+            }
+            .header-center {
+               text-align: center;
             }
             .display-3 {
-                font-weight: bold;   
+                margin-top: 20px;
+                font-family: 'Lucida Handwriting', cursive;  
+                text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
             }
+            .sidebar {
+            background-color: #f0f0f0;
+            opacity: 0.75;
+            padding: 20px;
+            border-right: 1px solid #ddd;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 10;
+            width: 210px;
+            overflow-y: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+          margin-bottom: 20px; /* add some space between logo and menu */
+        }
+
+        .logo img {
+          display: block; /* make the image a block element */
+          margin: 15px; /* center the image horizontally */
+        }
+
+        .sidebar ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+
+       }
+
+        .sidebar li {
+          margin-bottom: 10px; /* add some space between menu items */
+        }
+
+        .sidebar a {
+          text-decoration: none;
+          color: #000000; /* change the link color to your liking */
+          font-size: 25px;
+        }
+
+       .sidebar a:hover {
+           color: #23527c; /* change the link hover color to your liking */
+        }
+        .menu-item {
+          font-size: 18px; /* increase font size */
+          padding: 10px; /* add some padding to make the menu items more spacious */
+           border-bottom: 10px solid #999; /* add a separator line between menu items */
+        }
+
+         .menu-item:last-child {
+          border-bottom: 2px solid; /* remove the separator line from the last menu item */
+        }
+        .logout-button {
+          /* Make the button full-width */
+           width: 100%;
+          /* Add some margin top */
+           margin-top: 1.5rem;
+          /* Make the button look like a primary button */
+           background-color: #964B00;
+           color: #fff;
+            border-color: #2e6da4;
+           /* Add some padding to make the button taller */
+          padding: 0.5rem 1rem;
+          /* Make the button rounded */
+          border-radius: 0.25rem;
+         /* Add a hover effect */
+          transition: background-color 0.2s ease;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+          font-family: 'Georgia' , serif; 
+       }
+
+        .logout-button:hover {
+         background-color: #000000;
+       }
+
+       .logout-button a {
+        /* Make the link text white */
+         color: #fff;
+       /* Remove the underline */
+         text-decoration: none;
+       }
+
+        .logout-button a:hover {
+          /* Change the link text color on hover */
+          color: #fff;
+
+        }
          </style>
        <div class="row">
-           <div class="col-12">
-                 <h3 class="display-3">
-                    Welcome <?php echo $_SESSION['username']; ?> 
-                </h3>
-                <a href="?page=home" class="btn btn-link">Home</a>
-                <a href="?page=myorder" class="btn btn-link">My Orders</a>
-                <a href="?logout" class="btn btn-link">Logout</a>
-               
-           </div>
-       </div>
-    <?php if(isset($_GET['page'])){
-                if($_GET['page'] == 'home'){ ?>
-<!--                       Load the Home Content-->
-<div class="row"> 
-                            <div class="col-9">
 
+            <div class="header-center">
+                <h5 class="display-3">
+                    Welcome <?php echo $_SESSION['username']; ?> 
+                </h5>
+                </div>
+         <aside class= "sidebar">
+           <div class="logo">
+                    <img src="./images/logo.png" width="180px" height="80px" style="margin-left: 0;">
+                    </div>
+                   MENU
+                <ul> 
+                 <li><a href="?page=home" class="btn btn-link menu-item">Home</a></li>
+                 <li><a href="?page=myorder" class="btn btn-link menu-item">My Orders</a></li>
+                 <form action="search.php" method="get" class="sidebar-form">
+                   <input type="text" name="query" class="form-control" placeholder="Search...">
+                </form>
+                </ul>
+                <div class="sidebar-footer position-absolute w-99 bottom-0">
+                <p class="logout-button" onclick="return confirm('Are you sure you want to log out?')">
+                  <a href="?logout" type="button">Log Out</a>
+                </p>
+                </div>
+           </div>
+           </aside>
+           
+           <div class="col-15 offset-2 main-content">
+           <?php if(isset($_GET['page'])){
+                if($_GET['page'] == 'home'){ ?>
+                  <!--Load the Home Content--> 
+                       <div class="row"> 
+                            <div class="col-9">
+            
                                 <div class="container-fluid">
                                        <div class="row">
-                                        <?php
+                              <?php
 
                                $sql_get_items = "SELECT * FROM `items` WHERE `item_status`='A' order by items_id DESC";
                                $get_result = mysqli_query($conn, $sql_get_items); ?>
@@ -83,11 +193,12 @@ if(isset($_GET['delete_from_cart'])){
                                          
                                          <style>
                                            .card-img {
-                                             transition: transform 0.3s, box-shadow 0.3s; /* add transitions */
+                                             transition: transform 0.9s, box-shadow 0.5s;
+                                             
                                             }
                                           .card-img:hover {
                                             transform: scale(1.1);
-                                            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                                            box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
                                             cursor: pointer;
                                             }
                                         </style>
@@ -129,7 +240,8 @@ if(isset($_GET['delete_from_cart'])){
                                 </div>
                             </div>
                             <div class="col-3">
-                <!--              Cart-->
+
+                             <!---Cart--->
                                <?php
                                 if(isset($_GET['checkout'])){ ?>
 
@@ -267,7 +379,7 @@ if(isset($_GET['delete_from_cart'])){
                                 echo "<table class='table'>";
                                     while($cart = mysqli_fetch_assoc($cart_results)){ ?>
                                            <tr>
-                                               <td> <img src="../img/<?php echo $cart['item_img']; ?>" alt="" class="img-fluid"> </td>
+                                               <td> <img src="./images/<?php echo $cart['item_img']; ?>" alt="Product Image" class="img-fluid"> </td>
                                                <td> <?php echo $cart['item_name'];?> </td>
                                                <td> <?php echo $cart['item_qty'] . " pcs";?> </td>
                                                <td> <?php echo "Php " . number_format($cart['item_price'] * $cart['item_qty'],2); ?> </td>
@@ -286,28 +398,30 @@ if(isset($_GET['delete_from_cart'])){
                     <div class="row">
                     
                     <?php
-                        $sql_get_user_order = "SELECT DISTINCT 
-                                                  o.order_ref_number
-                                                , pm.payment_method_desc
-                                                , o.payment_method
-                                                , op.order_phase_desc
-                                                , o.order_phase
-                                                , o.alternate_receiver
-                                                , o.alternate_address
-                                                , o.gcash_ref_num
-                                                , o.gcash_account_name
-                                                , o.gcash_account_number
-                                                , o.gcash_amount_sent
-                                             FROM `orders` as o
-                                             JOIN `payment_method` as pm
-                                               ON o.payment_method = pm.payment_method_id
-                                             JOIN `order_phase` as op
-                                               ON o.order_phase = op.order_phase_id
-                                            WHERE o.user_id = '$s_user_id' ";      
-                    $result_orders = mysqli_query($conn, $sql_get_user_order);
+                    $sql_get_user_order = "SELECT DISTINCT 
+                     o.order_ref_number
+                     , pm.payment_method_desc
+                     , o.payment_method
+                     , op.order_phase_desc
+                     , o.order_phase
+                     , o.alternate_receiver
+                     , o.alternate_address
+                     , o.gcash_ref_num
+                     , o.gcash_account_name
+                     , o.gcash_account_number
+                     , o.gcash_amount_sent
+                     FROM `orders` as o
+                     JOIN `payment_method` as pm
+                     ON o.payment_method = pm.payment_method_id
+                     JOIN `order_phase` as op
+                     ON o.order_phase = op.order_phase_id
+                     WHERE o.user_id='$s_user_id' ";
+                     $result_orders = mysqli_query($conn, $sql_get_user_order);
+                           
+                       
+                     while($rec = mysqli_fetch_assoc($result_orders)){ //first loop with only the order_reference_number ?>
                     
-                    
-                    while($rec = mysqli_fetch_assoc($result_orders)){ //first loop with only the order_reference_number ?>
+            
                      <div class="col-3">
                          <div class="card mt-3">
                              <h6 class="card-title mt-1 ms-1"><?php 
@@ -366,7 +480,7 @@ if(isset($_GET['delete_from_cart'])){
                                                     $total_amt = $total_amt + ($io['item_qty'] * $io['item_price']);
                                                     ?>
                                                    <li class="list-group-item">
-                                                              <img src="../img/<?php echo $io['item_img'];?>" width="40px" alt="" class="img-fluid">
+                                                              <img src="./images/<?php echo $io['item_img'];?>" width="40px" alt="" class="img-fluid">
                                                                <?php echo $io['item_name'] . " x ";?>
                                                                <?php echo $io['item_qty'] . " pcs <br>";?>
                                                               <small class="small float-end"> <?php echo "Php " . number_format($io['item_price'],2);?></small>
@@ -401,6 +515,12 @@ if(isset($_GET['delete_from_cart'])){
     ?>
       
     </div>
+            
+
+        
+        </div>
+       </div>
+     
     
 </body>
    <script src="../js/bootstrap.js"></script>
